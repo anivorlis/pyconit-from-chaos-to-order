@@ -57,9 +57,11 @@ stages:
 
 ```bash
 dvc repro
+git add dvc.lock metrics.json
+git commit -m "run pipeline"
 ```
 
-DVC will execute all stages in order and cache the outputs.
+DVC executes all stages in order, caches the outputs, and records the run in `dvc.lock`.
 
 ### 4. Inspect the metrics
 
@@ -69,10 +71,12 @@ dvc metrics show
 
 ### 5. Run an experiment with a different parameter
 
-Change `degree` in `ex04/config.toml`, then re-run:
+Change `degree` in `ex04/config.toml`, then re-run and commit:
 
 ```bash
 dvc repro
+git add ex04/config.toml dvc.lock metrics.json
+git commit -m "experiment: degree=<your value>"
 ```
 
 Only the stages that depend on `fit.degree` will re-run (`fit`, `evaluate`, `visualize`). `generate_data` stays cached.
@@ -91,7 +95,7 @@ git add .dvc/config
 git commit -m "add local dvc remote"
 ```
 
-This creates a local folder `dvc-remote/` as DVC's storage. The `-d` flag makes it the default remote.
+DVC creates the `dvc-remote/` folder automatically — you don't need to create it yourself. The `-d` flag makes it the default remote.
 
 ### 8. Push data to the remote
 
@@ -129,3 +133,4 @@ with open(METRICS_PATH, "w") as f:
 ```
 
 Without this file, `dvc metrics show` and `dvc metrics diff` have nothing to read.
+

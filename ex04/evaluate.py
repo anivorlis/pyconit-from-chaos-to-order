@@ -4,7 +4,7 @@ from pathlib import Path
 
 INPUT_PATH = "data/input.csv"
 MODEL_PATH = "data/coefficients.json"
-METRICS_PATH = "data/metrics.json"
+METRICS_PATH = "metrics.json"
 
 
 def evaluate():
@@ -40,3 +40,4 @@ def evaluate():
 
 if __name__ == "__main__":
     evaluate()
+
