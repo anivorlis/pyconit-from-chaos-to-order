@@ -14,3 +14,12 @@ wheels/
 
 # data
 data/
+
+# AI agent configuration
+AGENTS.md
+CLAUDE.md
+.cursor/
+.copilot/
+.github/copilot-instructions.md
+.aider*
+.continue/
