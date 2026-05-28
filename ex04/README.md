@@ -83,6 +83,37 @@ Only the stages that depend on `fit.degree` will re-run (`fit`, `evaluate`, `vis
 dvc metrics diff
 ```
 
+### 7. Set up a local remote
+
+```bash
+dvc remote add -d local ./dvc-remote
+git add .dvc/config
+git commit -m "add local dvc remote"
+```
+
+This creates a local folder `dvc-remote/` as DVC's storage. The `-d` flag makes it the default remote.
+
+### 8. Push data to the remote
+
+```bash
+dvc push
+```
+
+DVC uploads the cached outputs (`input.csv`, `coefficients.json`, `plot.png`) to `./dvc-remote`.
+
+### 9. Simulate a fresh clone
+
+Remove the local data and pull it back from the remote — this is what a colleague does after cloning the repo:
+
+```bash
+rm -rf data/
+dvc pull
+ls data/
+```
+
+The files are restored from the remote without re-running the pipeline.  
+This is the core idea: **git tracks code, DVC tracks data**.
+
 ---
 
 ## Note: change in `evaluate.py`
