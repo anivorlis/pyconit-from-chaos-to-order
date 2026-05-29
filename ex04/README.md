@@ -132,5 +132,51 @@ with open(METRICS_PATH, "w") as f:
     json.dump(metrics, f, indent=2)
 ```
 
+
 Without this file, `dvc metrics show` and `dvc metrics diff` have nothing to read.
+
+---
+
+## Running and Managing DVC Experiments
+
+You can use DVC's experiment features to quickly try different parameters and keep only the results you like:
+
+### Running Experiments with Different Parameters
+
+- To run an experiment with different parameters (without editing files manually), use:
+
+  ```bash
+  dvc exp run --set-param ex04/config.toml:generate_data.num_points=200 --set-param ex04/config.toml:fit.degree=4
+  ```
+  Replace `200` and `4` with your desired values. Parameter names must match those listed in `dvc.yaml`.
+
+- You can repeat this command with different values to try multiple experiments. DVC will track each run as a separate experiment.
+
+### Viewing and Selecting Experiments
+
+- See all experiments and their metrics:
+  ```bash
+  dvc exp show
+  ```
+
+- When you find an experiment you want to keep, apply it to your workspace:
+  ```bash
+  dvc exp apply <exp_id>
+  ```
+  Replace `<exp_id>` with the experiment's ID from `dvc exp show`.
+
+### Saving and Pushing Selected Experiments
+
+1. After applying the experiment, commit the changes:
+   ```bash
+   git add ex04/config.toml dvc.lock metrics.json
+   git commit -m "experiment: description of changes"
+   ```
+2. Push code and data:
+   ```bash
+   git push
+   dvc push
+   ```
+
+This workflow lets you try many parameter combinations, but only keep and share the ones you select and commit.
 
